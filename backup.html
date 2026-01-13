@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="uk">
 <head>
@@ -16,16 +15,66 @@
       --ink:#111;
       --line:#333;
       --muted:#666;
-      --tab:#f5f5f5;
-      --active:#fff3a6;
       --radius:18px;
     }
-    *{box-sizing:border-box;}
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+
     body{
       margin:0;
       font-family: 'Bona Nova', serif;
       color: #00232e;
-      background:var(--bg);
+
+      /* animated gradient background */
+      background: linear-gradient(120deg, #B4DBDB, #CDF0F6, #088092);
+      background-size: 200% 200%;
+      animation: bgGradient 18s ease infinite;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    body::before,
+    body::after{
+      content:"";
+      position: fixed;
+      inset: -40px;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.55;
+      filter: blur(10px);
+      transform: translateZ(0);
+    }
+
+    body::before{
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.35), transparent 45%),
+        radial-gradient(circle at 75% 40%, rgba(255,255,255,0.22), transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(0,133,153,0.18), transparent 55%);
+      animation: blobs1 26s ease-in-out infinite;
+    }
+
+    body::after{
+      background:
+        radial-gradient(circle at 35% 65%, rgba(255,255,255,0.18), transparent 48%),
+        radial-gradient(circle at 85% 75%, rgba(84,131,132,0.16), transparent 55%),
+        radial-gradient(circle at 10% 85%, rgba(144,197,205,0.20), transparent 60%);
+      animation: blobs2 34s ease-in-out infinite;
+    }
+
+    @keyframes bgGradient{
+      0%{ background-position: 0% 50%; }
+      50%{ background-position: 100% 50%; }
+      100%{ background-position: 0% 50%; }
+    }
+    @keyframes blobs1{
+      0%{ transform: translate(0,0) scale(1); }
+      50%{ transform: translate(-18px, 14px) scale(1.05); }
+      100%{ transform: translate(0,0) scale(1); }
+    }
+    @keyframes blobs2{
+      0%{ transform: translate(0,0) scale(1); }
+      50%{ transform: translate(16px, -12px) scale(1.06); }
+      100%{ transform: translate(0,0) scale(1); }
     }
 
     /* Page */
@@ -33,7 +82,7 @@
       max-width: 1100px;
       margin: 18px auto;
       padding: 14px 16px 20px;
-      border: 2px solid transparent; /* чистий скрін */
+      border: 2px solid transparent;
       position: relative;
       z-index: 2;
     }
@@ -45,6 +94,19 @@
       gap: 12px;
       margin-bottom: 12px;
     }
+
+    .logo{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+    .logo img{
+      max-width: 80px;
+      max-height: 80px;
+      opacity: 0.75;
+      transition: opacity .25s ease;
+    }
+    .logo img:hover{ opacity: 1; }
 
     .title{
       text-align:center;
@@ -77,7 +139,10 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      opacity: 0.75;
+      transition: opacity .25s ease;
     }
+    .photo img:hover{ opacity: 1; }
 
     /* Tabs */
     .tabs{
@@ -102,8 +167,8 @@
       font-family: 'Bona Nova', serif;
       color: #00232e;
       box-shadow:
-           0px 0px 4px #548384,
-           inset 0px 2px 2px 1px rgba(255, 255, 255, 0.9);
+        0px 0px 4px #548384,
+        inset 0px 2px 2px 1px rgba(255, 255, 255, 0.9);
     }
     .tabs button:hover{
       background: #CDF0F6;
@@ -131,6 +196,7 @@
     }
     aside{ padding-top: 4px; }
 
+    /* Left menus */
     .menu{
       display:flex;
       flex-direction:column;
@@ -173,9 +239,8 @@
       text-align:center;
       padding: 12px 14px;
     }
-    .menu .wide{
-      padding: 14px 14px;
-    }
+    .menu .wide{ padding: 14px 14px; }
+    .menu[hidden]{ display:none !important; }
 
     /* Main content frame */
     main{
@@ -183,8 +248,9 @@
       min-height: 520px;
       padding: 18px;
       position:relative;
-      background: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.22);
       backdrop-filter: blur(2px);
+      border-radius: 10px;
     }
     .content-title{
       text-align:center;
@@ -204,10 +270,15 @@
       margin: 12px 0 8px;
       font-size: 16px;
     }
+    section h4{
+      margin: 10px 0 8px;
+      font-size: 14px;
+    }
     section p, section li{
       font-size: 14px;
       line-height:1.35;
     }
+    .muted{ color: var(--muted); }
 
     code, pre{
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
@@ -218,24 +289,10 @@
       padding: 10px;
       overflow:auto;
       background:#fafafa;
-    }
-
-    .mini-grid{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .mini{
-      border: 1px solid #cfd8dc;
       border-radius: 10px;
-      background: rgba(255,255,255,.75);
-      padding: 10px;
     }
-    .mini strong{ display:block; margin-bottom:6px; }
-    .muted{ color: var(--muted); }
 
-    /* ✅ HOME HERO card style from your MealPrep code (same format for text & photo frame) */
+    /* Demo "MealPrep Buddy hero" inside report */
     .home-wrap{
       display:grid;
       grid-template-columns: 1.1fr 0.9fr;
@@ -281,6 +338,7 @@
       font-size: 13px;
     }
     .btn:hover{ background:#CDF0F6; }
+
     .home-badges{
       display:flex;
       gap: 8px;
@@ -294,6 +352,7 @@
       border: 1px solid rgba(0,0,0,0.08);
       background: rgba(255,255,255,0.7);
     }
+
     .home-features{
       margin-top: 12px;
       display:grid;
@@ -325,14 +384,6 @@
       display:block;
     }
 
-    @media (max-width: 900px){
-      header{ grid-template-columns: 1fr; }
-      .layout{ grid-template-columns: 1fr; }
-      .tabs{ justify-content:flex-start; }
-      .home-wrap{ grid-template-columns: 1fr; }
-      .home-features{ grid-template-columns: 1fr; }
-    }
-
     footer{
       margin-top: 14px;
       font-size: 12px;
@@ -340,55 +391,7 @@
       text-align:center;
     }
 
-    /* Background animation (kept from your doc) */
-    body{
-      background: linear-gradient(120deg, #B4DBDB, #CDF0F6, #088092);
-      background-size: 200% 200%;
-      animation: bgGradient 18s ease infinite;
-      position: relative;
-    }
-    body::before,
-    body::after{
-      content:"";
-      position: fixed;
-      inset: -40px;
-      z-index: -1;
-      pointer-events: none;
-      opacity: 0.55;
-      filter: blur(10px);
-      transform: translateZ(0);
-    }
-    body::before{
-      background:
-        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.35), transparent 45%),
-        radial-gradient(circle at 75% 40%, rgba(255,255,255,0.22), transparent 50%),
-        radial-gradient(circle at 50% 80%, rgba(0,133,153,0.18), transparent 55%);
-      animation: blobs1 26s ease-in-out infinite;
-    }
-    body::after{
-      background:
-        radial-gradient(circle at 35% 65%, rgba(255,255,255,0.18), transparent 48%),
-        radial-gradient(circle at 85% 75%, rgba(84,131,132,0.16), transparent 55%),
-        radial-gradient(circle at 10% 85%, rgba(144,197,205,0.20), transparent 60%);
-      animation: blobs2 34s ease-in-out infinite;
-    }
-    @keyframes bgGradient{
-      0%{ background-position: 0% 50%; }
-      50%{ background-position: 100% 50%; }
-      100%{ background-position: 0% 50%; }
-    }
-    @keyframes blobs1{
-      0%{ transform: translate(0,0) scale(1); }
-      50%{ transform: translate(-18px, 14px) scale(1.05); }
-      100%{ transform: translate(0,0) scale(1); }
-    }
-    @keyframes blobs2{
-      0%{ transform: translate(0,0) scale(1); }
-      50%{ transform: translate(16px, -12px) scale(1.06); }
-      100%{ transform: translate(0,0) scale(1); }
-    }
-
-    /* Kyiv strip (kept) */
+    /* Kyiv strip */
     .kyiv-strip{
       position: fixed;
       bottom: 0;
@@ -409,7 +412,7 @@
       to{ background-position-x: -2000px; }
     }
 
-    /* Snow (kept) */
+    /* Snow */
     .snow-bg{
       position: fixed;
       inset: 0;
@@ -435,6 +438,7 @@
       from { rotate: 0deg; }
       to   { rotate: 360deg; }
     }
+
     .f1{ left: 8%;  top:-60px;  --fallDur: 28s; --spinDur: 18s; --driftX: 0px;  --driftTo: 40px; }
     .f2{ left: 28%; top:-120px; --fallDur: 34s; --spinDur: 22s; --driftX: 0px;  --driftTo: -30px; }
     .f3{ left: 52%; top:-90px;  --fallDur: 30s; --spinDur: 20s; --driftX: 0px;  --driftTo: 25px; }
@@ -456,28 +460,18 @@
     .f19{ left: 95%; top:-80px;  --fallDur: 32s; --spinDur: 24s; --driftX:0px; --driftTo: 25px; }
     .f20{ left: 98%; top:-150px; --fallDur: 48s; --spinDur: 38s; --driftX:0px; --driftTo:-30px; }
 
-    .logo{
-      display:flex;
-      justify-content:center;
-      align-items:center;
+    @media (max-width: 900px){
+      header{ grid-template-columns: 1fr; }
+      .layout{ grid-template-columns: 1fr; }
+      .tabs{ justify-content:flex-start; }
+      .home-wrap{ grid-template-columns: 1fr; }
+      .home-features{ grid-template-columns: 1fr; }
     }
-    .logo img{
-      max-width: 80px;
-      max-height: 80px;
-      opacity: 0.75;
-      transition: opacity 0.3s ease;
-    }
-    .photo img{
-      opacity: 0.75;
-      transition: opacity 0.3s ease;
-    }
-    .logo img:hover, .photo img:hover{ opacity: 1; }
   </style>
 </head>
 
 <body>
   <div class="page">
-
     <header>
       <div class="logo logo1">
         <img src="images/logo1.png" alt="Герб КПІ">
@@ -501,7 +495,7 @@
       </div>
     </header>
 
-    <!-- Tabs for labs -->
+    <!-- Tabs -->
     <nav aria-label="Вкладки лабораторних робіт">
       <ul class="tabs" id="labTabs">
         <li><button class="is-active" data-lab="lab1">Лабораторна робота №1</button></li>
@@ -510,9 +504,9 @@
     </nav>
 
     <div class="layout">
-      <!-- Left menu -->
       <aside>
-        <div class="menu" id="leftMenu">
+        <!-- MENU: LAB 1 -->
+        <div class="menu" id="leftMenuLab1">
           <button class="is-active wide" data-section="meta">Тема, мета, посилання</button>
           <button class="wide" data-section="logic">Опис предметного середовища<br>та бізнес-логіки</button>
           <button class="wide" data-section="structure">Структура документа</button>
@@ -526,23 +520,34 @@
           <button class="wide" data-section="homePage">Головна сторінка (MealPrep Buddy)</button>
           <button class="wide" data-section="homeCode">Код головної сторінки (MealPrep Buddy)</button>
         </div>
+
+        <!-- MENU: LAB 2 (СЕЛЕКТОРИ + CSS) -->
+        <div class="menu" id="leftMenuLab2" hidden>
+          <button class="is-active wide" data-section="lab2meta">Тема, мета, посилання (ЛР2)</button>
+          <button class="wide" data-section="cssConnect">Способи підключення стилів</button>
+
+          <button class="wide" data-section="tagSelectors">Селектори тегу</button>
+          <button class="wide" data-section="classSelectors">Селектори класу</button>
+          <button class="wide" data-section="idSelectors">Селектори ідентифікаторів</button>
+          <button class="wide" data-section="otherSelectors">Інші селектори</button>
+
+          <button class="wide" data-section="cssShowcase">CSS: Шрифти/Текст/Фон/Контур/Списки/Просунутий</button>
+          <button class="wide" data-section="lab2Conclusion">Висновки ЛР2</button>
+        </div>
       </aside>
 
       <main aria-label="Місце виведення інформації">
         <h3 class="content-title" id="contentTitle">Лабораторна робота №1</h3>
         <p class="hint" id="contentHint">Оберіть розділ зліва, щоб переглянути матеріали.</p>
 
-        <!-- ===========================
-             LAB 1
-        ============================ -->
+        <!-- ===================== LAB 1 ===================== -->
         <div class="lab" data-lab="lab1">
+          <section id="meta">
+            <h3>Тема, мета, посилання</h3>
+            <p><strong>Тема:</strong> Теги та атрибути HTML-документа. Семантична розмітка. Git/GitHub. Робота з репозиторіями. Опис логіки власного WEB-застосунку.</p>
+            <p><strong>Мета:</strong> навчитися працювати з GitHub та HTML-структурою (таблиці, зображення, посилання, списки, форми) і створити шаблон звітного HTML-документа для всіх лабораторних робіт.</p>
 
-          <section id="meta" aria-labelledby="h-meta">
-            <h3 id="h-meta">Тема, мета, посилання</h3>
-            <p><strong>Тема:</strong> Теги та атрибути HTML-документа. Структурна (семантична) розмітка. Git/GitHub. Робота з репозиторіями. Опис логіки власного WEB-застосунку.</p>
-            <p><strong>Мета:</strong> набути навички роботи з GitHub та репозиторіями; навчитися створювати HTML-документ з таблицями, зображеннями, посиланнями, списками та формами; створити шаблон звітного HTML-документа для всіх лабораторних робіт.</p>
-
-            <h3>Посилання (вкажи свої реальні)</h3>
+            <h3>Посилання (встав свої)</h3>
             <ul>
               <li>Репозиторій WEB-застосунку: <a href="#" target="_blank" rel="noreferrer">https://github.com/...</a></li>
               <li>Жива сторінка WEB-застосунку (GitHub Pages): <a href="#" target="_blank" rel="noreferrer">https://...github.io/...</a></li>
@@ -550,163 +555,106 @@
               <li>Жива сторінка звіту: <a href="#" target="_blank" rel="noreferrer">https://...github.io/...</a></li>
             </ul>
 
-            <div class="mini-grid" aria-label="Короткі підсумки">
-              <div class="mini"><strong>Що зроблено</strong>Створено структуру звіту з вкладками/меню та секціями для ЛР.</div>
-              <div class="mini"><strong>Результат</strong>Є шаблон, який легко доповнювати у наступних лабораторних.</div>
-            </div>
+            <p class="muted">Порада: заміни “#” на реальні посилання зі свого GitHub.</p>
           </section>
 
           <section id="logic" hidden>
-            <h3>Тема власного WEB-застосунку</h3>
-            <p><strong>MealPrep Buddy</strong> — вебзастосунок для планування харчування на тиждень і автоматичного формування списку інгредієнтів та покупок.</p>
-
-            <h3>Мета створення WEB-застосунку</h3>
-            <p>Спростити планування меню (обід/вечеря) та підготовку покупок, щоб економити час і зменшити кількість пропущених продуктів.</p>
-
-            <h3>Скорочений опис предметного середовища (бізнес-логіка)</h3>
-            <p>
-              Користувач обирає страви для 7 днів тижня. Кожна страва має перелік інгредієнтів.
-              Система підсумовує інгредієнти по тижню, рахує кількість повторів та формує список покупок.
-              Користувач може відмітити інгредієнти як «вже є», тоді вони зникають зі списку покупок.
-            </p>
+            <h3>Опис предметного середовища та бізнес-логіки</h3>
+            <p><strong>MealPrep Buddy</strong> — вебзастосунок для планування харчування на тиждень і автоматичного формування інгредієнтів та списку покупок.</p>
 
             <h3>Функціональні вимоги</h3>
             <ul>
-              <li>Вибір страв на кожен день (обід і вечеря).</li>
+              <li>Вибір страв на кожен день (обід/вечеря).</li>
               <li>Автоматичний підрахунок інгредієнтів на тиждень.</li>
-              <li>Формування списку покупок (без позицій «вже є»).</li>
-              <li>Позначення/скидання «вже є».</li>
-              <li>Надсилання списку покупок на email (mailto).</li>
+              <li>Формування списку покупок.</li>
+              <li>Відмітка «вже є» і очищення позначок.</li>
+              <li>Надсилання списку на email (mailto).</li>
             </ul>
 
             <h3>Нефункціональні вимоги</h3>
             <ul>
-              <li>Адаптивний дизайн (телефон/планшет/ПК).</li>
-              <li>Збереження даних у браузері (localStorage).</li>
-              <li>Семантична верстка (header/nav/main/section/footer).</li>
-              <li>Кросбраузерність (Chrome/Firefox/Edge).</li>
+              <li>Адаптивність, семантична верстка, кросбраузерність.</li>
+              <li>Збереження даних у localStorage.</li>
             </ul>
           </section>
 
           <section id="structure" hidden>
-            <h3>Структура головної сторінки (семантична верстка)</h3>
-            <pre><code>&lt;header&gt;
-  &lt;nav&gt;...посилання...&lt;/nav&gt;
-&lt;/header&gt;
-
+            <h3>Структура документа (семантична верстка)</h3>
+            <pre><code>&lt;header&gt;...&lt;/header&gt;
+&lt;nav&gt;...&lt;/nav&gt;
 &lt;main&gt;
-  &lt;section&gt;...Hero-блок (текст + кнопки + фото)...&lt;/section&gt;
+  &lt;section&gt;...&lt;/section&gt;
 &lt;/main&gt;
-
-&lt;footer&gt;...контакти...&lt;/footer&gt;</code></pre>
-
-            <p class="muted">
-              Семантичні теги роблять структуру сторінки зрозумілою і для браузера, і для людей, і для пошукових систем.
-            </p>
+&lt;footer&gt;...&lt;/footer&gt;</code></pre>
+            <p class="muted">Семантичні теги роблять структуру сторінки зрозумілою та доступною.</p>
           </section>
 
           <section id="table" hidden>
-            <h3>HTML-код таблиці (приклад для плану тижня)</h3>
+            <h3>HTML-код таблиці (приклад)</h3>
             <pre><code>&lt;table&gt;
   &lt;caption&gt;План харчування на тиждень&lt;/caption&gt;
   &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th scope="col"&gt;День&lt;/th&gt;
-      &lt;th scope="col"&gt;Обід&lt;/th&gt;
-      &lt;th scope="col"&gt;Вечеря&lt;/th&gt;
-    &lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;День&lt;/th&gt;&lt;th&gt;Обід&lt;/th&gt;&lt;th&gt;Вечеря&lt;/th&gt;&lt;/tr&gt;
   &lt;/thead&gt;
   &lt;tbody&gt;
-    &lt;tr&gt;&lt;td&gt;Пн&lt;/td&gt;&lt;td&gt;Салат з тунцем&lt;/td&gt;&lt;td&gt;Паста з овочами&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Пн&lt;/td&gt;&lt;td&gt;Салат&lt;/td&gt;&lt;td&gt;Паста&lt;/td&gt;&lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;</code></pre>
-
-            <h3>Теорія (коротко)</h3>
-            <ul>
-              <li><code>&lt;table&gt;</code> — контейнер таблиці.</li>
-              <li><code>&lt;thead&gt;</code>/<code>&lt;tbody&gt;</code> — частини таблиці.</li>
-              <li><code>&lt;tr&gt;</code> — рядок; <code>&lt;th&gt;</code> — заголовкова комірка; <code>&lt;td&gt;</code> — комірка даних.</li>
-              <li><code>scope</code> у <code>&lt;th&gt;</code> покращує доступність.</li>
-            </ul>
-            <p><em>Скріншот таблиці можна вставити як зображення після створення.</em></p>
           </section>
 
           <section id="image" hidden>
-            <h3>HTML-код зображення (hero-Фото)</h3>
+            <h3>HTML-код зображення (приклад)</h3>
             <pre><code>&lt;img src="images/hero.jpg" alt="Їжа та планування покупок"&gt;</code></pre>
-
-            <h3>Теорія (атрибути)</h3>
-            <ul>
-              <li><code>src</code> — шлях до файлу.</li>
-              <li><code>alt</code> — альтернативний текст (обовʼязковий для доступності).</li>
-              <li>Для заповнення рамки використовують CSS: <code>width:100%</code>, <code>height:100%</code>, <code>object-fit:cover</code>.</li>
-            </ul>
+            <p class="muted">Щоб фото заповнювало рамку: CSS <code>object-fit: cover;</code></p>
           </section>
 
           <section id="list" hidden>
-            <h3>HTML-код списків (приклад інгредієнтів/покупок)</h3>
+            <h3>HTML-код списків (приклад)</h3>
             <pre><code>&lt;ul&gt;
   &lt;li&gt;Тунець&lt;/li&gt;
   &lt;li&gt;Огірок&lt;/li&gt;
-  &lt;li&gt;Помідори&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;Обрати страви на тиждень&lt;/li&gt;
-  &lt;li&gt;Перевірити інгредієнти&lt;/li&gt;
-  &lt;li&gt;Купити відсутнє&lt;/li&gt;
+  &lt;li&gt;Обрати страви&lt;/li&gt;
+  &lt;li&gt;Сформувати список&lt;/li&gt;
 &lt;/ol&gt;</code></pre>
-
-            <h3>Теорія</h3>
-            <ul>
-              <li><code>&lt;ul&gt;</code> — маркований список; <code>&lt;ol&gt;</code> — нумерований; <code>&lt;li&gt;</code> — елемент.</li>
-              <li>Списки зручні для переліку інгредієнтів і кроків користувача.</li>
-            </ul>
           </section>
 
           <section id="form" hidden>
-            <h3>HTML-код форми (приклад — додати коментар/зворотній звʼязок)</h3>
+            <h3>HTML-код форми (приклад)</h3>
             <pre><code>&lt;form action="#" method="post"&gt;
   &lt;label&gt;Email:
     &lt;input type="email" name="email" required&gt;
   &lt;/label&gt;
-
-  &lt;label&gt;Повідомлення:
-    &lt;textarea name="message" rows="4"&gt;&lt;/textarea&gt;
-  &lt;/label&gt;
-
   &lt;button type="submit"&gt;Надіслати&lt;/button&gt;
 &lt;/form&gt;</code></pre>
           </section>
 
           <section id="html" hidden>
-            <h3>HTML-код (фрагмент навігації MealPrep Buddy)</h3>
-            <pre><code>&lt;header class="site-header"&gt;
-  &lt;div class="container header-row"&gt;
-    &lt;a class="brand" href="index.html"&gt;🍲 MealPrep Buddy&lt;/a&gt;
-    &lt;nav class="nav"&gt;
-      &lt;a href="index.html"&gt;Головна&lt;/a&gt;
-      &lt;a href="planner.html"&gt;План тижня&lt;/a&gt;
-      &lt;a href="shopping.html"&gt;Список покупок&lt;/a&gt;
-    &lt;/nav&gt;
-  &lt;/div&gt;
+            <h3>HTML-код (фрагмент)</h3>
+            <pre><code>&lt;header&gt;
+  &lt;h1&gt;MealPrep Buddy&lt;/h1&gt;
+  &lt;nav&gt;
+    &lt;a href="index.html"&gt;Головна&lt;/a&gt;
+    &lt;a href="planner.html"&gt;План тижня&lt;/a&gt;
+    &lt;a href="shopping.html"&gt;Список покупок&lt;/a&gt;
+  &lt;/nav&gt;
 &lt;/header&gt;</code></pre>
           </section>
 
           <section id="homePage" hidden>
-            <h3>Головна сторінка WEB-застосунку — MealPrep Buddy</h3>
-            <p class="muted">Нижче — приклад оформлення hero-блоку (текст + кнопки + фото) українською, на основі твого коду.</p>
-
+            <h3>Головна сторінка WEB-застосунку (приклад)</h3>
             <div class="home-wrap" aria-label="Hero-блок MealPrep Buddy">
               <div class="home-card">
-                <h4 class="home-title">Плануй харчування на тиждень легко</h4>
+                <div class="home-title">Плануй харчування на тиждень легко</div>
                 <p class="home-sub">
                   Обери страви на кожен день — а ми автоматично сформуємо інгредієнти та список покупок.
                 </p>
 
                 <div class="home-actions">
-                  <a class="btn" href="planner.html">🍽️ Почати планування</a>
-                  <a class="btn" href="shopping.html">🛒 До списку покупок</a>
+                  <a class="btn" href="#">🍽️ Почати планування</a>
+                  <a class="btn" href="#">🛒 До списку покупок</a>
                 </div>
 
                 <div class="home-badges">
@@ -726,89 +674,301 @@
                   </div>
                   <div class="feature">
                     <strong>3) Купуй зручно</strong>
-                    Позначай «вже є» та надсилай список.
+                    Позначай «вже є».
                   </div>
                 </div>
               </div>
 
-              <div class="home-photo" aria-label="Фото про планування харчування">
+              <div class="home-photo">
                 <img src="images/hero.jpg" alt="Їжа та планування покупок">
               </div>
             </div>
-
-            <p class="muted" style="margin-top:12px">
-              (Якщо <code>images/hero.jpg</code> ще немає у репозиторії — додай файл у папку <code>images/</code>.)
+            <p class="muted" style="margin-top:12px;">
+              Фото заповнює рамку завдяки <code>object-fit: cover</code> та <code>width/height: 100%</code>.
             </p>
           </section>
 
           <section id="homeCode" hidden>
-            <h3>Код головної сторінки WEB-застосунку — MealPrep Buddy</h3>
-            <pre><code>&lt;main&gt;
-  &lt;section class="home-hero"&gt;
-    &lt;div class="container"&gt;
-      &lt;div class="home-wrap"&gt;
+            <h3>Код головної сторінки WEB-застосунку (фрагмент)</h3>
+            <pre><code>&lt;div class="home-wrap"&gt;
+  &lt;div class="home-card"&gt;...текст, кнопки...&lt;/div&gt;
 
-        &lt;div class="home-card"&gt;
-          &lt;h1 class="home-title"&gt;Плануй харчування на тиждень легко&lt;/h1&gt;
-          &lt;p class="home-sub"&gt;Обери страви на кожен день — а ми автоматично сформуємо інгредієнти та список покупок.&lt;/p&gt;
-
-          &lt;div class="home-actions"&gt;
-            &lt;a class="btn" href="planner.html"&gt;🍽️ Почати планування&lt;/a&gt;
-            &lt;a class="btn" href="shopping.html"&gt;🛒 До списку покупок&lt;/a&gt;
-          &lt;/div&gt;
-
-          &lt;div class="home-badges"&gt;
-            &lt;span class="badge"&gt;✅ Автозбереження&lt;/span&gt;
-            &lt;span class="badge"&gt;📦 Інгредієнти на тиждень&lt;/span&gt;
-            &lt;span class="badge"&gt;✉️ Надсилання на email&lt;/span&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-
-        &lt;div class="home-photo"&gt;
-          &lt;img src="images/hero.jpg" alt="Їжа та планування покупок"&gt;
-        &lt;/div&gt;
-
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/section&gt;
-&lt;/main&gt;</code></pre>
+  &lt;div class="home-photo"&gt;
+    &lt;img src="images/hero.jpg" alt="Їжа та планування покупок"&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
           </section>
-
         </div>
 
-        <!-- ===========================
-             LAB 2 (placeholder)
-        ============================ -->
+        <!-- ===================== LAB 2 ===================== -->
         <div class="lab" data-lab="lab2" hidden>
-          <section id="lab2info">
-            <h3>Лабораторна робота №2</h3>
-            <p class="muted">Розділ для ЛР №2. Додай кнопки/секції за аналогією з ЛР №1.</p>
-          </section>
-        </div>
 
+          <section id="lab2meta">
+            <h3>Тема ЛР №2</h3>
+            <p>
+              Стильове оформлення елементів в HTML-документах. Каскадні таблиці стилів.
+              Селектори тегу, класу, ідентифікатора. Інші селектори.
+            </p>
+
+            <h3>Мета ЛР №2</h3>
+            <p>
+              Набути практичних навичок роботи з CSS: селекторами тегу/класу/id та іншими типами
+              селекторів. Використати стилізацію для тексту, шрифтів, фону, контурів (border),
+              відступів, списків та додаткових ефектів (анімації, псевдоелементи) у власному WEB-застосунку.
+            </p>
+
+            <h3>Місце розташування сайту та звіту</h3>
+            <ul>
+              <li>Репозиторій WEB-застосунку: <a href="#" target="_blank" rel="noreferrer">https://github.com/...</a></li>
+              <li>Жива сторінка WEB-застосунку (GitHub Pages): <a href="#" target="_blank" rel="noreferrer">https://...github.io/...</a></li>
+              <li>Репозиторій звіту: <a href="#" target="_blank" rel="noreferrer">https://github.com/...</a></li>
+              <li>Жива сторінка звіту: <a href="#" target="_blank" rel="noreferrer">https://...github.io/...</a></li>
+            </ul>
+
+            <p class="muted">
+              Тут заміни “#” на реальні лінки. Далі кнопками зліва відкривай потрібні секції про селектори.
+            </p>
+          </section>
+
+          <section id="cssConnect" hidden>
+            <h3>Способи підключення стилів</h3>
+
+            <h4>1) Зовнішній CSS-файл</h4>
+            <pre><code>&lt;link rel="stylesheet" href="styles.css"&gt;</code></pre>
+            <p class="muted">Використовується найчастіше: зручно підтримувати й перевикористовувати стилі.</p>
+
+            <h4>2) Внутрішні стилі (всередині &lt;style&gt;)</h4>
+            <pre><code>&lt;style&gt;
+  body { font-family: Arial, sans-serif; }
+&lt;/style&gt;</code></pre>
+            <p class="muted">Підходить для невеликих сторінок або для “демо” в лабораторній.</p>
+
+            <h4>3) Інлайн-стилі (через атрибут style)</h4>
+            <pre><code>&lt;h1 style="color:#00595C;"&gt;Заголовок&lt;/h1&gt;</code></pre>
+            <p class="muted">Застосовується точково, але зазвичай не рекомендується для великих проєктів.</p>
+          </section>
+
+          <section id="tagSelectors" hidden>
+            <h3>Селектори тегу</h3>
+            <p>Селектор тегу застосовує стиль до всіх елементів певного типу, наприклад <code>body</code>, <code>h1</code>, <code>p</code>.</p>
+
+            <h4>HTML (приклад)</h4>
+            <pre><code>&lt;h1&gt;MealPrep Buddy&lt;/h1&gt;
+&lt;p&gt;Плануй харчування на тиждень легко&lt;/p&gt;</code></pre>
+
+            <h4>CSS (приклад)</h4>
+            <pre><code>h1{
+  font-size: 28px;
+  font-weight: 700;
+}
+
+p{
+  color: #003a4a;
+  line-height: 1.5;
+}</code></pre>
+
+            <p class="muted">У звіті можна додати скріншот результату після застосування стилів.</p>
+            <!-- <img src="images/lab2_tagselector.png" alt="Селектор тегу" style="max-width:100%; border:1px solid #333; margin-top:10px;"> -->
+          </section>
+
+          <section id="classSelectors" hidden>
+            <h3>Селектори класу</h3>
+            <p>Селектор класу працює з елементами, які мають атрибут <code>class</code>. У CSS клас починається з крапки: <code>.className</code>.</p>
+
+            <h4>HTML (приклад)</h4>
+            <pre><code>&lt;div class="card"&gt;
+  &lt;h3&gt;Список покупок&lt;/h3&gt;
+&lt;/div&gt;</code></pre>
+
+            <h4>CSS (приклад)</h4>
+            <pre><code>.card{
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 14px;
+}</code></pre>
+
+            <p class="muted">
+              Селектори класу — найпопулярніший спосіб стилізувати компоненти (картки, кнопки, блоки).
+            </p>
+            <!-- <img src="images/lab2_classselector.png" alt="Селектор класу" style="max-width:100%; border:1px solid #333; margin-top:10px;"> -->
+          </section>
+
+          <section id="idSelectors" hidden>
+            <h3>Селектори ідентифікаторів</h3>
+            <p>Селектор ID використовується для одного унікального елемента на сторінці. У CSS ID починається з <code>#</code>.</p>
+
+            <h4>HTML (приклад)</h4>
+            <pre><code>&lt;div id="shoppingList"&gt;&lt;/div&gt;</code></pre>
+
+            <h4>CSS (приклад)</h4>
+            <pre><code>#shoppingList{
+  border: 1px dashed rgba(0,0,0,0.25);
+  padding: 10px;
+  border-radius: 12px;
+}</code></pre>
+
+            <p class="muted">
+              ID зручно використовувати для конкретних областей (наприклад, контейнер зі списком),
+              а також для зв’язку з JavaScript (document.getElementById).
+            </p>
+            <!-- <img src="images/lab2_idselector.png" alt="Селектор id" style="max-width:100%; border:1px solid #333; margin-top:10px;"> -->
+          </section>
+
+          <section id="otherSelectors" hidden>
+            <h3>Інші селектори</h3>
+
+            <h4>Універсальний селектор *</h4>
+            <pre><code>*{ box-sizing: border-box; }</code></pre>
+            <p class="muted">Застосовується для базових налаштувань усіх елементів.</p>
+
+            <h4>Дочірній селектор (A B)</h4>
+            <pre><code>.home-photo img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}</code></pre>
+
+            <h4>Сусідній селектор (A + B)</h4>
+            <pre><code>h2 + p{
+  margin-top: 6px;
+}</code></pre>
+
+            <h4>Селектор атрибута</h4>
+            <pre><code>a[target="_blank"]{
+  text-decoration: underline;
+}</code></pre>
+
+            <p class="muted">
+              Ці селектори дозволяють точніше керувати стилями та робити CSS більш гнучким.
+            </p>
+          </section>
+
+          <section id="cssShowcase" hidden>
+            <h3>CSS: Шрифти / Текст / Фон / Контур / Списки / Просунутий</h3>
+
+            <h4>Шрифти та текст</h4>
+            <pre><code>body{
+  font-family: 'Bona Nova', serif;
+  color: #00232e;
+}
+
+.muted{
+  color: rgba(0,0,0,.55);
+}</code></pre>
+
+            <h4>Фон і кольори</h4>
+            <pre><code>body{
+  background: linear-gradient(120deg, #B4DBDB, #CDF0F6, #088092);
+}</code></pre>
+
+            <h4>Контур і заокруглення</h4>
+            <pre><code>.box{
+  border: 2px solid #333;
+  border-radius: 16px;
+  padding: 12px;
+}</code></pre>
+
+            <h4>Списки</h4>
+            <pre><code>ul{
+  padding-left: 18px;
+}
+
+li{
+  margin: 6px 0;
+}</code></pre>
+
+            <h4>Просунутий CSS (анімації / псевдоелементи)</h4>
+            <pre><code>.banner::before{
+  content:"";
+  display:block;
+  height: 10px;
+  background: rgba(0,0,0,.12);
+}
+
+@keyframes fadeIn{
+  from{ opacity: 0; }
+  to{ opacity: 1; }
+}</code></pre>
+
+            <p class="muted">
+              У цьому звіті вже є приклад “просунутого” CSS: анімований фон + псевдоелементи body::before/after + анімація.
+            </p>
+          </section>
+
+          <section id="lab2Conclusion" hidden>
+            <h3>Висновки до ЛР №2</h3>
+            <p>
+              Під час лабораторної роботи №2 було опрацьовано підключення CSS до HTML-документа,
+              а також використано різні типи селекторів: селектори тегу, класу, ідентифікатора та
+              додаткові селектори (універсальний, дочірній, сусідній, за атрибутом).
+              Налаштовано стилі для шрифтів, тексту, фону, border/radius, списків і реалізовано
+              додаткові візуальні ефекти. Отримані навички дозволяють структурувати CSS та
+              застосовувати стилізацію для реального вебзастосунку.
+            </p>
+          </section>
+
+        </div>
       </main>
     </div>
 
     <footer>
-      © Звітний HTML-документ лабораторних робіт (FIOT-2025) • Контакти: <a href="mailto:contact@example.com">contact@example.com</a>
+      © Звітний HTML-документ лабораторних робіт (FIOT-2025)
     </footer>
   </div>
 
   <div class="kyiv-strip" aria-hidden="true"></div>
 
   <div class="snow-bg" aria-hidden="true">
-    <span class="flake f1"></span><span class="flake f2"></span><span class="flake f3"></span><span class="flake f4"></span><span class="flake f5"></span>
-    <span class="flake f6"></span><span class="flake f7"></span><span class="flake f8"></span><span class="flake f9"></span><span class="flake f10"></span>
-    <span class="flake f11"></span><span class="flake f12"></span><span class="flake f13"></span><span class="flake f14"></span><span class="flake f15"></span>
-    <span class="flake f16"></span><span class="flake f17"></span><span class="flake f18"></span><span class="flake f19"></span><span class="flake f20"></span>
+    <span class="flake f1"></span><span class="flake f2"></span><span class="flake f3"></span><span class="flake f4"></span>
+    <span class="flake f5"></span><span class="flake f6"></span><span class="flake f7"></span><span class="flake f8"></span>
+    <span class="flake f9"></span><span class="flake f10"></span><span class="flake f11"></span><span class="flake f12"></span>
+    <span class="flake f13"></span><span class="flake f14"></span><span class="flake f15"></span><span class="flake f16"></span>
+    <span class="flake f17"></span><span class="flake f18"></span><span class="flake f19"></span><span class="flake f20"></span>
   </div>
 
   <script>
-    // Tabs: labs
+    // Tabs + labs
     const tabBar = document.getElementById('labTabs');
     const labs = document.querySelectorAll('.lab');
     const title = document.getElementById('contentTitle');
 
+    const menuLab1 = document.getElementById('leftMenuLab1');
+    const menuLab2 = document.getElementById('leftMenuLab2');
+
+    function getActiveLab(){
+      return [...labs].find(l => !l.hidden);
+    }
+
+    function getActiveMenu(labId){
+      return (labId === 'lab2') ? menuLab2 : menuLab1;
+    }
+
+    function switchMenus(labId){
+      if(labId === 'lab2'){
+        menuLab1.hidden = true;
+        menuLab2.hidden = false;
+      }else{
+        menuLab1.hidden = false;
+        menuLab2.hidden = true;
+      }
+    }
+
+    function setActiveSection(sectionId){
+      const activeLab = getActiveLab();
+      if(!activeLab) return;
+
+      // show/hide sections inside active lab
+      activeLab.querySelectorAll('section').forEach(s => s.hidden = (s.id !== sectionId));
+
+      // highlight button only inside active menu
+      const activeMenu = getActiveMenu(activeLab.dataset.lab);
+      activeMenu.querySelectorAll('button').forEach(b => b.classList.remove('is-active'));
+      const activeBtn = activeMenu.querySelector(`button[data-section="${sectionId}"]`);
+      if(activeBtn) activeBtn.classList.add('is-active');
+    }
+
+    // Clicking lab tab
     tabBar.addEventListener('click', (e) => {
       const btn = e.target.closest('button[data-lab]');
       if(!btn) return;
@@ -822,36 +982,25 @@
       const n = labId.replace('lab','');
       title.textContent = `Лабораторна робота №${n}`;
 
-      // При перемиканні лаби — показати перший розділ (meta), якщо він існує
-      setActiveSection(labId === 'lab1' ? 'meta' : 'lab2info');
+      switchMenus(labId);
+
+      // default first section
+      if(labId === 'lab2') setActiveSection('lab2meta');
+      else setActiveSection('meta');
     });
 
-    // Left menu: sections
-    const menu = document.getElementById('leftMenu');
-
-    function setActiveSection(sectionId){
-      const activeLab = [...labs].find(l => !l.hidden);
-      if(!activeLab) return;
-
-      // Ховаємо всі секції в активній лабі, показуємо тільки потрібну (якщо є)
-      const sections = activeLab.querySelectorAll('section');
-      if(sections.length){
-        sections.forEach(s => s.hidden = (s.id !== sectionId));
-      }
-
-      // Підсвічуємо кнопку меню лише якщо вона є для цього sectionId
-      menu.querySelectorAll('button').forEach(b => b.classList.remove('is-active'));
-      const activeBtn = menu.querySelector(`button[data-section="${sectionId}"]`);
-      if(activeBtn) activeBtn.classList.add('is-active');
-    }
-
-    menu.addEventListener('click', (e) => {
+    // Menu click handler (delegation)
+    function menuClickHandler(e){
       const btn = e.target.closest('button[data-section]');
       if(!btn) return;
       setActiveSection(btn.dataset.section);
-    });
+    }
+
+    menuLab1.addEventListener('click', menuClickHandler);
+    menuLab2.addEventListener('click', menuClickHandler);
 
     // init
+    switchMenus('lab1');
     setActiveSection('meta');
   </script>
 </body>
