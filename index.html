@@ -239,9 +239,7 @@
       text-align:center;
       padding: 12px 14px;
     }
-    .menu .wide{
-      padding: 14px 14px;
-    }
+    .menu .wide{ padding: 14px 14px; }
     .menu[hidden]{ display:none !important; }
 
     /* Main content frame */
@@ -252,6 +250,7 @@
       position:relative;
       background: rgba(255,255,255,0.22);
       backdrop-filter: blur(2px);
+      border-radius: 10px;
     }
     .content-title{
       text-align:center;
@@ -517,7 +516,7 @@
           <button class="wide" data-section="homeCode">Код головної сторінки (MealPrep Buddy)</button>
         </div>
 
-        <!-- MENU: LAB 2 -->
+        <!-- MENU: LAB 2 (buttons like reference) -->
         <div class="menu" id="leftMenuLab2" hidden>
           <button class="is-active wide" data-section="lab2_meta">Тема, мета, посилання</button>
           <button class="wide" data-section="lab2_task">Постановка задачі</button>
@@ -696,7 +695,7 @@
         <div class="lab" data-lab="lab2" hidden>
           <section id="lab2_meta">
             <h3>Лабораторна робота №2 — Тема, мета, посилання</h3>
-            <p class="muted">Сюди ти вставиш текст для ЛР2 (ти казала, що додаси контент наступним кроком).</p>
+            <p class="muted">Сюди ти вставиш текст для ЛР2 (контент додаси наступним кроком).</p>
           </section>
 
           <section id="lab2_task" hidden>
@@ -724,6 +723,7 @@
             <p class="muted">Коротко: що вивчила і що вийшло.</p>
           </section>
         </div>
+
       </main>
     </div>
 
@@ -735,30 +735,14 @@
   <div class="kyiv-strip" aria-hidden="true"></div>
 
   <div class="snow-bg" aria-hidden="true">
-    <span class="flake f1"></span>
-    <span class="flake f2"></span>
-    <span class="flake f3"></span>
-    <span class="flake f4"></span>
-    <span class="flake f5"></span>
-    <span class="flake f6"></span>
-    <span class="flake f7"></span>
-    <span class="flake f8"></span>
-    <span class="flake f9"></span>
-    <span class="flake f10"></span>
-    <span class="flake f11"></span>
-    <span class="flake f12"></span>
-    <span class="flake f13"></span>
-    <span class="flake f14"></span>
-    <span class="flake f15"></span>
-    <span class="flake f16"></span>
-    <span class="flake f17"></span>
-    <span class="flake f18"></span>
-    <span class="flake f19"></span>
-    <span class="flake f20"></span>
+    <span class="flake f1"></span><span class="flake f2"></span><span class="flake f3"></span><span class="flake f4"></span>
+    <span class="flake f5"></span><span class="flake f6"></span><span class="flake f7"></span><span class="flake f8"></span>
+    <span class="flake f9"></span><span class="flake f10"></span><span class="flake f11"></span><span class="flake f12"></span>
+    <span class="flake f13"></span><span class="flake f14"></span><span class="flake f15"></span><span class="flake f16"></span>
+    <span class="flake f17"></span><span class="flake f18"></span><span class="flake f19"></span><span class="flake f20"></span>
   </div>
 
   <script>
-    // Tabs: labs
     const tabBar = document.getElementById('labTabs');
     const labs = document.querySelectorAll('.lab');
     const title = document.getElementById('contentTitle');
@@ -766,38 +750,34 @@
     const menuLab1 = document.getElementById('leftMenuLab1');
     const menuLab2 = document.getElementById('leftMenuLab2');
 
-    function showMenu(labId){
-      if(labId === 'lab1'){
-        menuLab1.hidden = false;
-        menuLab2.hidden = true;
-      } else if(labId === 'lab2'){
-        menuLab1.hidden = true;
-        menuLab2.hidden = false;
-      }
-    }
-
     function getActiveLab(){
       return [...labs].find(l => !l.hidden);
+    }
+
+    function getActiveMenu(labId){
+      return (labId === 'lab2') ? menuLab2 : menuLab1;
+    }
+
+    function showMenu(labId){
+      menuLab1.hidden = (labId !== 'lab1');
+      menuLab2.hidden = (labId !== 'lab2');
     }
 
     function setActiveSection(sectionId){
       const activeLab = getActiveLab();
       if(!activeLab) return;
 
-      // show only selected section in active lab
-      const sections = activeLab.querySelectorAll('section');
-      sections.forEach(s => s.hidden = (s.id !== sectionId));
+      // show only section inside active lab
+      activeLab.querySelectorAll('section').forEach(s => s.hidden = (s.id !== sectionId));
 
-      // highlight in correct menu
-      const activeLabId = activeLab.dataset.lab;
-      const activeMenu = (activeLabId === 'lab1') ? menuLab1 : menuLab2;
-
+      // highlight only in active menu
+      const activeMenu = getActiveMenu(activeLab.dataset.lab);
       activeMenu.querySelectorAll('button').forEach(b => b.classList.remove('is-active'));
       const activeBtn = activeMenu.querySelector(`button[data-section="${sectionId}"]`);
       if(activeBtn) activeBtn.classList.add('is-active');
     }
 
-    // Tab click -> switch lab
+    // Tabs switching
     tabBar.addEventListener('click', (e) => {
       const btn = e.target.closest('button[data-lab]');
       if(!btn) return;
@@ -813,12 +793,12 @@
 
       showMenu(labId);
 
-      // default section per lab
-      if(labId === 'lab1') setActiveSection('meta');
+      // default section
       if(labId === 'lab2') setActiveSection('lab2_meta');
+      else setActiveSection('meta');
     });
 
-    // Menu handlers (event delegation)
+    // Left menus click (delegation)
     function attachMenuHandler(menuEl){
       menuEl.addEventListener('click', (e) => {
         const btn = e.target.closest('button[data-section]');
