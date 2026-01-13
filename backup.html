@@ -10,32 +10,43 @@
   <link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
   <style>
+    /* =========================
+       BLACK + PURPLE THEME ONLY
+       (content/structure unchanged)
+       ========================= */
+
     :root{
-      --bg:#ffffff;
-      --ink:#111;
-      --line:#333;
-      --muted:#666;
+      --bg:#0b0c10;
+      --card:#12141c;
+      --alt:#0f1118;
+      --text:#e9ecf1;
+      --muted:#b3b9c6;
+      --line:rgba(255,255,255,.12);
+
+      --purple:#7c5cff;
+      --purple2:#a855f7;
+
+      --radius:18px;
     }
+
     *{ box-sizing:border-box; }
     html{ scroll-behavior:smooth; }
 
     body{
       margin:0;
       font-family: 'Bona Nova', serif;
-      color: #00232e;
-
-      background: linear-gradient(120deg, #B4DBDB, #CDF0F6, #088092);
-      background-size: 200% 200%;
-      animation: bgGradient 18s ease infinite;
-      position: relative;
+      color: var(--text);
       min-height: 100vh;
-    }
-    @keyframes bgGradient{
-      0%{ background-position: 0% 50%; }
-      50%{ background-position: 100% 50%; }
-      100%{ background-position: 0% 50%; }
+
+      background:
+        radial-gradient(1200px 700px at 15% 10%, rgba(124,92,255,.18), transparent 55%),
+        radial-gradient(1100px 700px at 85% 5%, rgba(168,85,247,.14), transparent 55%),
+        var(--bg);
+      line-height:1.55;
+      position: relative;
     }
 
+    /* Page */
     .page{
       max-width: 1100px;
       margin: 18px auto;
@@ -53,38 +64,64 @@
       margin-bottom: 12px;
     }
 
-    .logo{ display:flex; justify-content:center; align-items:center; }
+    .logo{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
     .logo img{
       max-width: 80px;
       max-height: 80px;
-      opacity: 0.75;
+      opacity: 0.85;
       transition: opacity .25s ease;
+      filter: drop-shadow(0 0 10px rgba(124,92,255,.18));
     }
     .logo img:hover{ opacity: 1; }
 
-    .title{ text-align:center; line-height:1.2; }
+    .title{
+      text-align:center;
+      line-height:1.2;
+    }
     .title h1{
       margin:0;
       font-size: 20px;
       font-weight: 700;
       text-transform: uppercase;
+      color: #c084fc;
+      text-shadow:
+        0 0 6px rgba(192,132,252,.65),
+        0 0 16px rgba(168,85,247,.35);
     }
-    .title h2{ margin:6px 0 0; font-size: 16px; font-weight: 700; }
-    .title p{ margin:8px 0 0; font-size: 14px; }
+    .title h2{
+      margin:6px 0 0;
+      font-size: 16px;
+      font-weight: 700;
+      color: #e9d5ff;
+      opacity: .95;
+    }
+    .title p{
+      margin:8px 0 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
 
     .photo{
-      width: 120px; height: 120px;
-      border: 2px solid var(--line);
+      width: 120px;
+      height: 120px;
+      border: 1px solid var(--line);
       overflow: hidden;
-      border-radius: 8px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.03);
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
     }
     .photo img{
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      opacity: 0.75;
-      transition: opacity .25s ease;
+      opacity: 0.9;
+      transition: opacity .25s ease, transform .25s ease;
     }
-    .photo img:hover{ opacity: 1; }
+    .photo img:hover{ opacity: 1; transform: scale(1.02); }
 
     /* Tabs */
     .tabs{
@@ -98,33 +135,37 @@
       list-style:none;
     }
     .tabs button{
-      border: none;
+      border: 1px solid rgba(124,92,255,.35);
       flex: 1;
-      background: #B4DBDB;
-      border-radius: 6px;
+      background: rgba(18,20,28,.70);
+      border-radius: 14px;
       padding: 12px 14px;
       cursor:pointer;
       font-size: 14px;
       text-align:center;
       font-family: 'Bona Nova', serif;
-      color: #00232e;
-      box-shadow:
-        0px 0px 4px #548384,
-        inset 0px 2px 2px 1px rgba(255, 255, 255, 0.9);
+      color: var(--text);
+      box-shadow: 0 18px 40px rgba(0,0,0,.25);
+      transition: transform .06s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
     }
     .tabs button:hover{
-      background: #CDF0F6;
+      background: rgba(124,92,255,.12);
+      border-color: rgba(124,92,255,.55);
       box-shadow:
-        0px 0px 4px 2px #008599,
-        inset 0px 4px 4px 1px rgba(255, 255, 255, 0.9);
+        0 0 16px rgba(124,92,255,.18),
+        0 18px 40px rgba(0,0,0,.28);
+      transform: translateY(-1px);
     }
-    .tabs button:active{ background:#90C5CD; box-shadow: 0px 0px 4px #548384; }
+    .tabs button:active{ transform: translateY(0px); }
     .tabs button.is-active{
-      background:#90C5CD;
-      outline: 3px solid rgba(0,0,0,0.08);
-      font-weight:700;
-      color: #063c4d;
-      box-shadow: 0px 0px 4px #548384;
+      background: linear-gradient(135deg, rgba(124,92,255,.35), rgba(168,85,247,.18));
+      border-color: rgba(124,92,255,.75);
+      font-weight: 700;
+      color: #fff;
+      box-shadow:
+        0 0 18px rgba(124,92,255,.28),
+        0 18px 40px rgba(0,0,0,.30);
+      outline: none;
     }
 
     .layout{
@@ -142,32 +183,36 @@
       gap: 10px;
     }
     .menu button{
-      border: none;
-      background: #B4DBDB;
-      border-radius: 6px;
+      border: 1px solid rgba(124,92,255,.35);
+      background: rgba(18,20,28,.70);
+      border-radius: 14px;
       padding: 12px 14px;
       cursor:pointer;
       font-size: 14px;
       text-align:center;
       font-family: 'Bona Nova', serif;
-      color: #00232e;
-      box-shadow:
-        0px 0px 4px #548384,
-        inset 0px 2px 2px 1px rgba(255, 255, 255, 0.9);
+      color: var(--text);
+      box-shadow: 0 18px 40px rgba(0,0,0,.25);
+      transition: transform .06s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
     }
     .menu button:hover{
-      background: #CDF0F6;
+      background: rgba(124,92,255,.12);
+      border-color: rgba(124,92,255,.55);
       box-shadow:
-        0px 0px 4px 2px #008599,
-        inset 0px 4px 4px 1px rgba(255, 255, 255, 0.9);
+        0 0 16px rgba(124,92,255,.18),
+        0 18px 40px rgba(0,0,0,.28);
+      transform: translateY(-1px);
     }
-    .menu button:active{ background:#90C5CD; box-shadow: 0px 0px 4px #548384; }
+    .menu button:active{ transform: translateY(0px); }
     .menu button.is-active{
-      background:#90C5CD;
-      outline: 3px solid rgba(0,0,0,0.08);
+      background: linear-gradient(135deg, rgba(124,92,255,.35), rgba(168,85,247,.18));
+      border-color: rgba(124,92,255,.75);
       font-weight:700;
-      color: #063c4d;
-      box-shadow: 0px 0px 4px #548384;
+      color: #fff;
+      box-shadow:
+        0 0 18px rgba(124,92,255,.28),
+        0 18px 40px rgba(0,0,0,.30);
+      outline: none;
     }
     .menu .indent{
       margin-right: auto;
@@ -176,25 +221,28 @@
       padding: 12px 14px;
     }
     .menu .wide{ padding: 14px 14px; }
-
-    /* ✅ important: when hidden attribute is set, it's really hidden */
     .menu[hidden]{ display:none !important; }
 
-    /* Main content */
+    /* Main content frame */
     main{
-      border: 2px solid var(--line);
+      border: 1px solid var(--line);
       min-height: 520px;
       padding: 18px;
       position:relative;
-      background: rgba(255,255,255,0.22);
-      backdrop-filter: blur(2px);
-      border-radius: 10px;
+      background: rgba(18,20,28,.68);
+      border-radius: 18px;
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
+      backdrop-filter: blur(8px);
     }
     .content-title{
       text-align:center;
-      margin: 0 0 12px;
+      margin: 0 0 10px;
       font-size: 18px;
       font-weight: 700;
+      color: #c084fc;
+      text-shadow:
+        0 0 6px rgba(192,132,252,.55),
+        0 0 14px rgba(168,85,247,.35);
     }
     .hint{
       text-align:center;
@@ -204,24 +252,45 @@
     }
 
     section[hidden]{ display:none !important; }
-    section h3{ margin: 12px 0 8px; font-size: 16px; }
-    section h4{ margin: 10px 0 8px; font-size: 14px; }
-    section p, section li{ font-size: 14px; line-height:1.35; }
+    section h3{
+      margin: 12px 0 8px;
+      font-size: 16px;
+      color: #e9d5ff;
+    }
+    section h4{
+      margin: 10px 0 8px;
+      font-size: 14px;
+      color: #f5d0fe;
+      opacity: .95;
+    }
+    section p, section li{
+      font-size: 14px;
+      line-height:1.35;
+      color: var(--text);
+    }
     .muted{ color: var(--muted); }
+
+    a{ color: inherit; text-decoration: underline; text-decoration-color: rgba(124,92,255,.5); }
+    a:hover{ text-decoration-color: rgba(124,92,255,.95); }
 
     code, pre{
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
       font-size: 13px;
     }
     pre{
-      border:1px solid #ccc;
+      border: 1px solid rgba(124,92,255,.22);
       padding: 10px;
       overflow:auto;
-      background:#fafafa;
-      border-radius: 10px;
+      background: rgba(15,17,24,.85);
+      border-radius: 14px;
+      color: #f8fafc;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
+    }
+    code{
+      color: #f0abfc;
     }
 
-    /* Demo hero inside report */
+    /* Demo "MealPrep Buddy hero" inside report — same layout, dark neon style */
     .home-wrap{
       display:grid;
       grid-template-columns: 1.1fr 0.9fr;
@@ -230,39 +299,88 @@
       margin-top: 10px;
     }
     .home-card{
-      background: rgba(255,255,255,0.9);
-      border: 1px solid rgba(0,0,0,0.06);
+      background: radial-gradient(circle at top left,
+        rgba(236,72,153,.22),
+        rgba(168,85,247,.18) 60%,
+        rgba(18,20,28,.88)
+      );
+      border: 1px solid rgba(236,72,153,.35);
       border-radius: 18px;
       padding: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      box-shadow:
+        0 0 12px rgba(236,72,153,.25),
+        0 0 28px rgba(168,85,247,.20),
+        0 18px 40px rgba(0,0,0,.35);
+      color: #fdf4ff;
     }
-    .home-title{ margin: 0 0 8px 0; font-size: 20px; font-weight: 700; }
-    .home-sub{ margin: 0 0 12px 0; opacity: .85; }
-    .home-actions{ display:flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    .home-title{
+      margin: 0 0 8px 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: #c084fc;
+      text-shadow:
+        0 0 6px rgba(192,132,252,.55),
+        0 0 14px rgba(168,85,247,.35);
+    }
+    .home-sub{
+      margin: 0 0 12px 0;
+      color: #f5d0fe;
+      opacity: .95;
+    }
+    .home-actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    /* Purple unified button look */
     .btn{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      padding: 10px 12px;
+      gap:8px;
+
+      padding: 12px 16px;
       border-radius: 999px;
-      background:#90C5CD;
-      border: 1px solid rgba(0,0,0,0.14);
-      box-shadow: 0px 0px 4px #548384,
-                inset 0px 2px 2px 1px rgba(255,255,255,0.8);
-      text-decoration:none;
-      color:#063c4d;
-      font-weight:700;
+
+      font-family: inherit;
+      font-weight: 800;
       font-size: 13px;
+      line-height: 1;
+
+      color:#fff;
+      text-decoration:none;
+
+      border: 1px solid rgba(124,92,255,.55);
+      background: linear-gradient(135deg, var(--purple), rgba(124,92,255,.85));
+      box-shadow: 0 10px 24px rgba(124,92,255,.28);
+      transition: transform .06s ease, box-shadow .12s ease, background .12s ease;
     }
-    .btn:hover{ background:#CDF0F6; text-decoration:none; }
-    .home-badges{ display:flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .btn:hover{
+      text-decoration:none;
+      background: linear-gradient(135deg, #6f4eff, rgba(124,92,255,.95));
+      box-shadow: 0 14px 30px rgba(124,92,255,.38);
+      transform: translateY(-1px);
+    }
+    .btn:active{ transform: translateY(0px); }
+
+    .home-badges{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
     .badge{
       font-size: 12px;
       padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(0,0,0,0.08);
-      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(236,72,153,.40);
+      background: rgba(236,72,153,.12);
+      color: #fdf4ff;
+      box-shadow: 0 0 10px rgba(236,72,153,.18);
     }
+
     .home-features{
       margin-top: 12px;
       display:grid;
@@ -272,17 +390,18 @@
     .feature{
       padding: 10px;
       border-radius: 14px;
-      border: 1px solid rgba(0,0,0,0.06);
-      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
       font-size: 13px;
+      color: #fdf4ff;
     }
-    .feature strong{ display:block; margin-bottom: 4px; }
+    .feature strong{ display:block; margin-bottom: 4px; color:#f0abfc; }
 
     .home-photo{
-      background: rgba(255,255,255,0.9);
-      border: 1px solid rgba(0,0,0,0.06);
+      background: rgba(18,20,28,.70);
+      border: 1px solid rgba(124,92,255,.28);
       border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
       overflow:hidden;
       position:relative;
       min-height: 260px;
@@ -292,7 +411,10 @@
       height:100%;
       object-fit: cover;
       display:block;
+      opacity: .92;
+      transition: opacity .25s ease, transform .25s ease;
     }
+    .home-photo img:hover{ opacity: 1; transform: scale(1.02); }
 
     footer{
       margin-top: 14px;
@@ -357,7 +479,6 @@
           <button class="indent" data-section="form">HTML-код ФОРМИ</button>
           <button class="indent" data-section="html">HTML-код (фрагмент)</button>
 
-          <!-- ✅ these were missing earlier in your note – restored -->
           <button class="wide" data-section="homePage">Головна сторінка (MealPrep Buddy)</button>
           <button class="wide" data-section="homeCode">Код головної сторінки (MealPrep Buddy)</button>
         </div>
@@ -476,7 +597,6 @@
 &lt;/header&gt;</code></pre>
           </section>
 
-          <!-- ✅ Missing section 1 restored -->
           <section id="homePage" hidden>
             <h3>Головна сторінка WEB-застосунку (приклад)</h3>
             <div class="home-wrap" aria-label="Hero-блок MealPrep Buddy">
@@ -519,7 +639,6 @@
             </div>
           </section>
 
-          <!-- ✅ Missing section 2 restored -->
           <section id="homeCode" hidden>
             <h3>Код головної сторінки WEB-застосунку (фрагмент)</h3>
             <pre><code>&lt;section class="hero"&gt;
@@ -606,7 +725,6 @@ h1{ font-size: 44px; }</code></pre>
     const menuLab2 = document.getElementById('leftMenuLab2');
 
     function showMenu(labId){
-      // ✅ guarantees: only one menu is visible
       menuLab1.hidden = (labId !== 'lab1');
       menuLab2.hidden = (labId !== 'lab2');
     }
@@ -619,10 +737,8 @@ h1{ font-size: 44px; }</code></pre>
       const activeLab = getActiveLab();
       if(!activeLab) return;
 
-      // show only selected section inside active lab
       activeLab.querySelectorAll('section').forEach(s => s.hidden = (s.id !== sectionId));
 
-      // highlight in active menu only
       const activeLabId = activeLab.dataset.lab;
       const activeMenu = (activeLabId === 'lab1') ? menuLab1 : menuLab2;
 
@@ -644,8 +760,6 @@ h1{ font-size: 44px; }</code></pre>
       title.textContent = `Лабораторна робота №${labId.replace('lab','')}`;
 
       showMenu(labId);
-
-      // default section per lab
       setActiveSection(labId === 'lab1' ? 'meta' : 'lab2_meta');
     });
 
