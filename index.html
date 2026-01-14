@@ -10,11 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
   <style>
-    /* =========================
-       YOUR DARK SITE THEME (black + purple)
-       + report layout styles
-       ========================= */
-
     :root{
       --bg:#0b0c10;
       --card:#12141c;
@@ -95,23 +90,8 @@
       color: var(--muted);
     }
 
-    /* TABS */
-    .tabs{
-      display:flex;
-      gap: 10px;
-      width: 100%;
-      flex-wrap:wrap;
-      justify-content:flex-start; /* left */
-      margin: 12px 0 14px;
-      padding: 0;
-      list-style:none;
-    }
-
-    /* Make Lab1/Lab2 buttons same size as other UI buttons,
-       and different color from left menu */
-    .tabs button{
-      border: 1px solid rgba(96,165,250,.45);
-      background: linear-gradient(135deg, rgba(96,165,250,.18), rgba(124,92,255,.22));
+    /* ====== BUTTONS: same size everywhere ====== */
+    :is(.tabs button, .menu button){
       border-radius: 14px;
       padding: 12px 14px;
       cursor:pointer;
@@ -121,23 +101,51 @@
       color: var(--text);
       box-shadow: 0 18px 40px rgba(0,0,0,.25);
       transition: transform .06s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
-      min-width: 240px;     /* consistent size */
+      min-height: 44px;      /* одинаковая высота */
+      line-height: 1;        /* стабильно по высоте */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    /* Tabs container */
+    .tabs{
+      display:flex;
+      gap: 10px;
+      width: 100%;
+      flex-wrap:wrap;
+      justify-content:flex-start;
+      margin: 12px 0 14px;
+      padding: 0;
+      list-style:none;
+    }
+    .tabs li{
+      width: auto;
+      flex: 0 0 auto;
+    }
+    /* Tabs buttons: different color from other buttons */
+    .tabs button{
+      width: 260px; /* same visual size for Lab1/Lab2 buttons */
+      border: 1px solid rgba(96,165,250,.55);
+      background: linear-gradient(135deg, rgba(96,165,250,.20), rgba(124,92,255,.28));
     }
     .tabs button:hover{
-      background: linear-gradient(135deg, rgba(96,165,250,.22), rgba(124,92,255,.30));
-      border-color: rgba(96,165,250,.65);
+      background: linear-gradient(135deg, rgba(96,165,250,.26), rgba(124,92,255,.36));
+      border-color: rgba(96,165,250,.75);
       box-shadow: 0 0 18px rgba(96,165,250,.18), 0 18px 40px rgba(0,0,0,.28);
       transform: translateY(-1px);
     }
     .tabs button.is-active{
-      background: linear-gradient(135deg, rgba(124,92,255,.45), rgba(124,92,255,.20));
-      border-color: rgba(124,92,255,.80);
+      background: linear-gradient(135deg, rgba(96,165,250,.18), rgba(96,165,250,.08));
+      border-color: rgba(96,165,250,.95);
       font-weight: 700;
       color: #fff;
-      box-shadow: 0 0 18px rgba(124,92,255,.28), 0 18px 40px rgba(0,0,0,.30);
+      box-shadow: 0 0 18px rgba(96,165,250,.28), 0 18px 40px rgba(0,0,0,.30);
       outline: none;
     }
 
+    /* Layout */
     .layout{
       display:grid;
       grid-template-columns: 300px 1fr;
@@ -152,18 +160,10 @@
       flex-direction:column;
       gap: 10px;
     }
+
     .menu button{
       border: 1px solid rgba(124,92,255,.35);
       background: rgba(18,20,28,.70);
-      border-radius: 14px;
-      padding: 12px 14px;
-      cursor:pointer;
-      font-size: 14px;
-      text-align:center;
-      font-family: 'Bona Nova', serif;
-      color: var(--text);
-      box-shadow: 0 18px 40px rgba(0,0,0,.25);
-      transition: transform .06s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
     }
     .menu button:hover{
       background: rgba(124,92,255,.12);
@@ -185,7 +185,7 @@
       text-align:center;
       padding: 12px 14px;
     }
-    .menu .wide{ padding: 14px 14px; }
+    .menu .wide{ padding: 12px 14px; }
     .menu[hidden]{ display:none !important; }
 
     /* Main content frame */
@@ -206,12 +206,6 @@
       font-weight: 700;
       color: #c084fc;
       text-shadow: 0 0 6px rgba(192,132,252,.55), 0 0 14px rgba(168,85,247,.35);
-    }
-    .hint{
-      text-align:center;
-      color: var(--muted);
-      margin: 0 0 16px;
-      font-size: 14px;
     }
 
     section[hidden]{ display:none !important; }
@@ -355,7 +349,8 @@
 
     @media (max-width: 900px){
       .layout{ grid-template-columns: 1fr; }
-      .tabs button{ min-width: 0; flex: 1; }
+      .tabs li{ flex: 1 1 240px; }
+      .tabs button{ width: 100%; }
       .home-wrap{ grid-template-columns: 1fr; }
       .home-features{ grid-template-columns: 1fr; }
     }
@@ -384,7 +379,6 @@
 
     <div class="layout">
       <aside>
-        <!-- Lab 1 menu shows ONLY on lab1 -->
         <div class="menu" id="leftMenuLab1">
           <button class="is-active wide" data-section="meta">Тема, мета, посилання</button>
           <button class="wide" data-section="logic">Опис предметного середовища<br>та бізнес-логіки</button>
@@ -400,7 +394,6 @@
           <button class="wide" data-section="homeCode">Код головної сторінки (MealPrep Buddy)</button>
         </div>
 
-        <!-- Lab 2 menu hidden until lab2 selected -->
         <div class="menu" id="leftMenuLab2" hidden>
           <button class="is-active wide" data-section="lab2_meta">Тема, мета, посилання</button>
           <button class="wide" data-section="cssConnect">Способи підключення стилів</button>
@@ -417,7 +410,6 @@
 
       <main aria-label="Місце виведення інформації">
         <h3 class="content-title" id="contentTitle">Лабораторна робота №1</h3>
-        <p class="hint" id="contentHint">Оберіть розділ зліва, щоб переглянути матеріали.</p>
 
         <!-- ===================== LAB 1 ===================== -->
         <div class="lab" data-lab="lab1">
